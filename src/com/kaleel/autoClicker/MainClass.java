@@ -11,7 +11,7 @@ public class MainClass {
 	      {
 	        MainDisplayFrame MDframe = new MainDisplayFrame();
 	        MDframe.setDefaultCloseOperation(3);
-	        MDframe.setSize(400, 140);
+	        MDframe.setSize(350, 140);
 	        MDframe.setVisible(true);
 	        MDframe.setResizable(false);
 	      }

@@ -4,25 +4,22 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.net.URI;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 public class MainDisplayFrame extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected JTextField textBox1;
-	protected JTextField textBox2;
+	protected JComboBox<?> linkBox1;
+	protected JComboBox<?> listBox1;
 	private JButton runButton;
-	private JButton resetButton;
 	private JButton aboutButton;
 	private static JFrame display;
 	
@@ -33,25 +30,24 @@ public class MainDisplayFrame extends JFrame {
 		Box box = Box.createVerticalBox();
 	    JPanel panel1 = new JPanel();
 	    
-		textBox1 = new JTextField(34);
-		textBox1.setHorizontalAlignment(JTextField.CENTER);
-		textBox2 = new JTextField(15);
-		textBox2.setText("No. of Times");
-		textBox2.setHorizontalAlignment(JTextField.CENTER);
+	    String link[] = {
+	    		"http://affiliates.mozilla.org/referral/57480/", 
+	    		"http://affiliates.mozilla.org/link/banner/42069" };
+	    linkBox1 = new JComboBox<Object>(link);
+		
+		String times[] = {"10", "100", "200", "300", "400" };
+		listBox1 = new JComboBox<Object>(times);
 		
 		runButton = new JButton("Run");
-		resetButton = new JButton("Reset");
 		aboutButton = new JButton("About");
-		panel1.add(textBox1);
-		textBox1.setPreferredSize(new Dimension(60, 30));
+		panel1.add(linkBox1);
+		linkBox1.setPreferredSize(new Dimension(330, 30));
 		panel1.add(runButton);
-		runButton.setPreferredSize(new Dimension(100, 30));
-		panel1.add(textBox2);
-		textBox2.setPreferredSize(new Dimension(20, 30));
-		panel1.add(resetButton);
-		resetButton.setPreferredSize(new Dimension(100, 30));
+		runButton.setPreferredSize(new Dimension(110, 30));
+		panel1.add(listBox1);
+		listBox1.setPreferredSize(new Dimension(100, 30));
 		panel1.add(aboutButton);
-		aboutButton.setPreferredSize(new Dimension(380, 30));
+		aboutButton.setPreferredSize(new Dimension(110, 30));
 		
 		box.add(panel1);
 		add(box);
@@ -60,46 +56,22 @@ public class MainDisplayFrame extends JFrame {
 		runButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent ae)
 			{
-				
-				int number = Integer.parseInt(textBox2.getText().toString());
-				String url = textBox1.getText().toString();
-				if(number<0 || url.equals(null)) {
-					System.exit(0);
-				}
-				else {
-					int split = (int) Math.ceil(number / 5);
-					for(int i=0; i < 5; i++)
+				int number = Integer.valueOf((String)listBox1.getSelectedItem());
+				String url = (String) linkBox1.getSelectedItem();
+				for(int j = 1; j <= number; j++)
 					{
-						for(int j=0; j < split; j++)
-						{
-							try {
-							  Desktop desktop = Desktop.getDesktop();
-							  if (Desktop.isDesktopSupported()
-						                && desktop.isSupported(Desktop.Action.BROWSE))
-								  {
-								  desktop.browse(new URI(url));
-								  }
-							  Thread.sleep(500);
-							} catch (Exception e) {
-							  e.printStackTrace();
-							}
-						}
 						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+							Desktop desktop = Desktop.getDesktop();
+							 if (Desktop.isDesktopSupported()
+						               && desktop.isSupported(Desktop.Action.BROWSE))
+							 {
+								 desktop.browse(new URI(url));
+							 }
+							 Thread.sleep(1200);
+							 } catch (Exception e) {
+								 e.printStackTrace();
+							 }
 					}
-				}
-			}
-		});
-		
-		resetButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent ae)
-			{
-				textBox1.setText(null);
-				textBox2.setText(null);
 			}
 		});
 		
@@ -108,27 +80,6 @@ public class MainDisplayFrame extends JFrame {
 			{
 				new About(MainDisplayFrame.display);
 			}
-		});
-		
-		textBox1.addFocusListener(new FocusListener() {
-		    public void focusGained(FocusEvent e) {
-		        textBox1.setText("");
-		    }
-
-		    public void focusLost(FocusEvent e) {
-		        // nothing
-		    }
-		});
-		
-		textBox2.addFocusListener(new FocusListener() {
-		    public void focusGained(FocusEvent e) {
-		        textBox2.setText(null);
-		    }
-
-		    public void focusLost(FocusEvent e) {
-		        // nothing
-		    }
-		});
-		
+		});		
 	 }
 }
