@@ -35,7 +35,7 @@ public class MainDisplayFrame extends JFrame {
 	    		"http://affiliates.mozilla.org/link/banner/42069" };
 	    linkBox1 = new JComboBox<Object>(link);
 		
-		String times[] = {"10", "100", "200", "300", "400" };
+		String times[] = {"10", "100", "200", "300", "400", "500" };
 		listBox1 = new JComboBox<Object>(times);
 		
 		runButton = new JButton("Run");
